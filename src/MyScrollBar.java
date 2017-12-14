@@ -14,7 +14,7 @@ class MyScrollBar extends BasicScrollBarUI
 		g.translate(thumbbounds.x,thumbbounds.y);
 		g.setColor(new Color(160,160,160));
 		//((Graphics2D)g).fillRoundRect(0,0,thumbbounds.width-6,thumbbounds.height-6,10,10);
-		g.drawImage(thumb,6,6,thumbbounds.width-6,thumbbounds.height-6,null);
+		g.drawImage(thumb,7,7,thumbbounds.width-7,thumbbounds.height-7,null);
 		g.translate(-thumbbounds.x,-thumbbounds.y);
 	}
 

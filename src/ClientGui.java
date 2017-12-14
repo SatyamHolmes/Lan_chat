@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -15,6 +16,7 @@ class ClientGui
 	private JPanel msgpanel;  //where message is typed
 	private JPanel menupanel;
 	private JPanel friendspanel;
+	private JPanel friendspanelback;
 	private JScrollPane scroller;
 	private JPanel trash;
 	//private JTextArea text;
@@ -42,10 +44,13 @@ class ClientGui
 		frame=new JFrame();
 		frame.setSize(1300,700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		BorderLayout blay=new BorderLayout();
+		blay.setHgap(10);
+		blay.setVgap(5);
+
 		mpanel=new ClientPanel();
 		mpanel.setSize(1300,700);
-		mpanel.setLayout(new BorderLayout());
+		mpanel.setLayout(blay);
 		frame.setContentPane(mpanel);
 
 		menupanel=new JPanel();
@@ -54,7 +59,7 @@ class ClientGui
 		mpanel.add(menupanel,BorderLayout.NORTH);
 
 		trash=new JPanel();
-		trash.setPreferredSize(new Dimension(10,600));
+		trash.setPreferredSize(new Dimension(0,600));
 		trash.setOpaque(false);
 		mpanel.add(trash,BorderLayout.WEST);
 
@@ -77,7 +82,7 @@ class ClientGui
 		scroller=new JScrollPane(hpanel);
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroller.setPreferredSize(new Dimension(1000,580));
+		scroller.setPreferredSize(new Dimension(975,570));
 		scroller.getViewport().setOpaque(false);
 		scroller.setOpaque(false);
 		scroller.getVerticalScrollBar().setUI(new MyScrollBar());
@@ -92,13 +97,24 @@ class ClientGui
 		hpanelback.add(scroller);
 		mpanel.add(hpanelback,BorderLayout.CENTER);
 
-		msgpanel=new JPanel();
+		msgpanel=new JPanel()
+		{
+			public void paintComponent(Graphics g)
+			{
+				Image image = new ImageIcon("/home/satyamholmes/Desktop/java/Lan_Chat/msgpanel.png").getImage();
+				g.drawImage(image, 0, 0, 1100, 45, this);
+			}
+		};
 		msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		msgpanel.setPreferredSize(new Dimension(1300,50));
 		msgpanel.setOpaque(false);
 		mpanel.add(msgpanel,BorderLayout.SOUTH);
 
 		message=new JTextArea();
+		message.setOpaque(false);
+		message.setForeground(Color.WHITE);
+		message.setFont(new Font("Times New Roman",Font.PLAIN,20));
+		message.setForeground(Color.BLACK);
 		msgpanel.add(message);
 		message.setPreferredSize(new Dimension(1100,50));
 		message.setLineWrap(true);
@@ -137,9 +153,11 @@ class ClientGui
 			});
 		
 
-		button=new JButton("Send");
+		button=new JButton(new ImageIcon("/home/satyamholmes/Desktop/java/Lan_Chat/button.png"));
 		msgpanel.add(button);
-		button.setPreferredSize(new Dimension(100,50));
+		button.setPreferredSize(new Dimension(60,60));
+		button.setBorder(BorderFactory.createEmptyBorder(0,0,21,0));
+		button.setContentAreaFilled(false);
 		button.addActionListener((e)->
 				{
 					try
@@ -158,15 +176,21 @@ class ClientGui
 					}
 				});
 
+		//friendspanelback=new JPanel();
+
 		friendspanel=new JPanel()
 		{
 			public void paintComponent(Graphics g)
 			{
 				Image image=new ImageIcon("/home/satyamholmes/Desktop/java/Lan_Chat/hpanel.png").getImage();
-				g.drawImage(image,0,0,300,600,this);
+				g.drawImage(image,0,0,290,590,this);
 			}
 		};
+		friendspanel.setPreferredSize(new Dimension(300,600));
+		//friendspanel.setBorder(new EmptyBorder(0,10,0,0));
+		mpanel.add(friendspanel,BorderLayout.EAST);
 		frame.setVisible(true);
+
 		connect();
 	}
 
@@ -198,9 +222,10 @@ class ClientGui
 					g.drawString(ad,0,10);
 				}
 			};
-			rpanel.setPreferredSize(new Dimension(1300,20));
-			rpanel.setMaximumSize(new Dimension(1300,20));
-			rpanel.setMinimumSize(new Dimension(1300,20));
+			rpanel.setPreferredSize(new Dimension(900,20));
+			rpanel.setMaximumSize(new Dimension(900,20));
+			rpanel.setMinimumSize(new Dimension(900,20));
+			//rpanel.setBorder(BorderFactory.createEmptyBorder(0,0,5,0));
 			hpanel.add(rpanel);
 			hpanel.revalidate();
 			hpanel.repaint();
